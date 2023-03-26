@@ -1,23 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
 
 function App() {
+  const [data, setData] = useState([]);
+  const [name, setName] = useState('');
+  const [age, setAge] = useState('');
+
+  const handleAdd = () => {
+    setData([...data, { name, age }]);
+    setName('');
+    setAge('');
+  };
+
+  const handleDelete = (index) => {
+    setData(data.filter((_, i) => i !== index));
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Usuários</h1>
+      <ul>
+        {data.map((user, index) => (
+          <li key={index}>
+            {user.name} - {user.age} anos
+            <button onClick={() => handleDelete(index)}>Excluir</button>
+          </li>
+        ))}
+      </ul>
+      <h2>Novo usuário</h2>
+      <label>Nome:</label>
+      <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+      <br />
+      <label>Idade:</label>
+      <input type="number" value={age} onChange={(e) => setAge(e.target.value)} />
+      <br />
+      <button onClick={handleAdd}>Adicionar</button>
     </div>
   );
 }
